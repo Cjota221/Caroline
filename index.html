@@ -7,438 +7,431 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-3XLJW4JXQW');
 
-      // Função de Rastreamento de Cliques
       function trackClick(eventName, eventParams) {
           if(typeof gtag === 'function'){
               gtag('event', eventName, eventParams);
-              console.log('📢 Clique registrado:', eventName, eventParams);
           }
       }
     </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caroline Azevedo | Developer & Founder</title>
+    <title>Caroline Azevedo | Founder & Developer</title>
     
-    <!-- Fonte Tecnológica (Outfit) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
-    <!-- Ícones (Lucide) -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Outfit:wght@800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* --- 1. CONFIGURAÇÕES & PALETA --- */
         :root {
-            /* Fundo Escuro (Tech) */
-            --bg-color: #050505;
-            
-            /* Cores Neon (Ajustadas para a Marca) */
-            --neon-primary: #DC2EDA; /* Rosa Cjota */
-            --neon-secondary: #bd00ff; /* Roxo Profundo */
-            --neon-accent: #ffd700; /* Dourado */
-            
-            /* Vidro */
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-blur: 20px;
-            
+            --bg-color: #030303;
+            --neon-primary: #DC2EDA; 
+            --neon-secondary: #7000ff;
+            --neon-accent: #ffd700;
             --text-main: #ffffff;
-            --text-muted: #a0a0a0;
+            --text-muted: #888888;
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.07);
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* --- 2. FUNDO ANIMADO (Orbes de Luz) --- */
-        .background-fx {
+        /* --- BACKGROUND INTERATIVO --- */
+        .spotlight {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
             z-index: -1;
-            overflow: hidden;
-        }
-        
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            animation: float 10s infinite alternate;
-        }
-        
-        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--neon-secondary); animation-delay: 0s; }
-        .blob-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: var(--neon-primary); animation-delay: -5s; }
-        .blob-3 { top: 40%; left: 40%; width: 40vw; height: 40vw; background: #4a0072; opacity: 0.3; animation-delay: -2s; }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, 50px) scale(1.1); }
+            background: radial-gradient(
+                circle at var(--x, 50%) var(--y, 50%), 
+                rgba(220, 46, 218, 0.12) 0%, 
+                rgba(112, 0, 255, 0.05) 25%, 
+                transparent 50%
+            );
         }
 
-        /* --- 3. CONTAINER PRINCIPAL --- */
-        .container {
+        .grid-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background-image: linear-gradient(var(--glass-border) 1px, transparent 1px), 
+                              linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+        }
+
+        /* --- SISTEMA DE ANIMAÇÃO SPA --- */
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: var(--transition);
             width: 100%;
-            max-width: 500px;
-            padding: 40px 20px;
-            position: relative;
-            z-index: 1;
-            padding-bottom: 120px; /* Espaço extra para o botão flutuante */
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 60px 24px 140px;
         }
 
-        /* --- 4. PERFIL --- */
-        .profile-header {
-            text-align: center;
-            margin-bottom: 50px;
-            animation: slideDown 0.8s ease-out;
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
 
+        /* --- PERFIL --- */
+        .profile-header { text-align: center; margin-bottom: 45px; }
+        
         .profile-img-wrap {
             position: relative;
-            width: 130px;
-            height: 130px;
-            margin: 0 auto 25px;
+            width: 130px; height: 130px;
+            margin: 0 auto 28px;
         }
-
-        /* Borda Giratória Neon */
-        .profile-img-wrap::before {
-            content: '';
-            position: absolute;
-            inset: -4px;
+        .profile-img-wrap::after {
+            content: ''; position: absolute; inset: -4px;
             border-radius: 50%;
-            background: linear-gradient(45deg, var(--neon-primary), var(--neon-secondary));
-            animation: spin 4s linear infinite;
+            background: linear-gradient(135deg, var(--neon-primary), var(--neon-secondary));
             z-index: -1;
+            opacity: 0.6;
+            filter: blur(8px);
         }
         
         .profile-img {
             width: 100%; height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--bg-color); 
-            background: #111;
+            border-radius: 50%; border: 3px solid var(--bg-color);
+            object-fit: cover; background: #111;
         }
 
-        .profile-name {
-            font-size: 2rem;
-            font-weight: 800;
+        .profile-name { 
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; 
             margin-bottom: 8px;
-            background: linear-gradient(to right, #fff, #aaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
+        }
+        .profile-role { 
+            color: var(--neon-primary); 
+            letter-spacing: 2px; font-weight: 600; font-size: 0.8rem; 
+            text-transform: uppercase; margin-bottom: 12px; display: block;
         }
 
-        .profile-role {
-            font-size: 1rem;
-            color: var(--neon-primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            text-shadow: 0 0 10px rgba(220, 46, 218, 0.4);
-        }
-
-        .profile-bio {
-            color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.6;
-            max-width: 90%;
-            margin: 0 auto;
-        }
-
-        /* --- 5. LINKS/CARDS (Glassmorphism) - AUMENTADOS --- */
-        .links-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 20px; /* Mais espaço entre os cards */
-        }
-
+        /* --- CARDS PREMIUM --- */
+        .links-grid { display: flex; flex-direction: column; gap: 14px; }
+        
         .link-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            backdrop-filter: blur(var(--glass-blur));
-            -webkit-backdrop-filter: blur(var(--glass-blur));
-            padding: 25px 20px; /* Botões mais altos (mais padding vertical) */
-            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            padding: 22px; border-radius: 20px;
+            text-decoration: none; display: flex; align-items: center;
+            transition: var(--transition);
+            cursor: pointer; color: white;
+            position: relative;
+        }
+
+        .link-card:hover { 
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(220, 46, 218, 0.4);
+            transform: translateY(-4px) scale(1.01);
+        }
+        
+        .card-icon { 
+            width: 52px; height: 52px; border-radius: 14px; 
+            background: rgba(255,255,255,0.03); 
+            display: flex; align-items: center; justify-content: center; 
+            margin-right: 18px; color: #fff; 
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+        }
+        .link-card:hover .card-icon { 
+            color: var(--neon-primary);
+            border-color: var(--neon-primary);
+            box-shadow: 0 0 20px rgba(220, 46, 218, 0.2);
+        }
+
+        .card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 2px; }
+        .card-desc { color: var(--text-muted); font-size: 0.85rem; font-weight: 400; }
+
+        /* --- PÁGINA DE VENDAS (VIZZU) --- */
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: var(--text-muted); text-decoration: none;
+            font-size: 0.9rem; margin-bottom: 35px; cursor: pointer;
+            transition: 0.3s;
+        }
+        .back-btn:hover { color: var(--neon-primary); }
+        
+        .badge {
+            background: linear-gradient(90deg, var(--neon-primary), var(--neon-secondary));
+            color: #fff;
+            padding: 6px 14px; border-radius: 50px;
+            font-size: 0.7rem; font-weight: 800;
+            margin-bottom: 18px; display: inline-block;
+            text-transform: uppercase;
+        }
+        
+        .sales-title { 
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem; font-weight: 800; line-height: 1; margin-bottom: 25px; 
+        }
+        .sales-title span { color: var(--neon-primary); }
+
+        .feature-box { display: grid; gap: 12px; margin-bottom: 30px; }
+        .feature-item {
+            background: rgba(255,255,255,0.02);
+            padding: 24px; border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-item::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+            background: var(--neon-primary);
+        }
+        .feature-item h4 { font-weight: 700; color: #fff; margin-bottom: 6px; font-size: 1.05rem; }
+        .feature-item p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
+
+        .price-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+            border: 1px solid var(--neon-primary);
+            padding: 40px 24px; border-radius: 32px; text-align: center;
+            position: relative;
+        }
+        .price-tag { font-family: 'Outfit', sans-serif; font-size: 3.2rem; font-weight: 800; color: #fff; margin: 5px 0; }
+        .price-tag small { font-size: 1rem; color: var(--text-muted); }
+        
+        .payment-info { color: var(--neon-accent); font-weight: 700; font-size: 1rem; margin-bottom: 25px; display: block; }
+
+        .btn-cta {
+            background: var(--neon-primary); color: #fff;
+            padding: 22px; border-radius: 18px; text-decoration: none;
+            display: block; font-weight: 800; font-size: 1.1rem;
+            text-transform: uppercase; transition: var(--transition);
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(220, 46, 218, 0.3);
+        }
+        .btn-cta:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(220, 46, 218, 0.5); }
+
+        /* --- FOOTER & FLOAT --- */
+        .footer-nav { margin-top: 60px; text-align: center; }
+        .social-row { display: flex; justify-content: center; gap: 28px; margin-bottom: 20px; }
+        .social-btn { 
+            color: var(--text-muted); 
+            transition: 0.3s; 
             text-decoration: none;
             display: flex;
             align-items: center;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            overflow: hidden;
-            animation: fadeUp 0.5s ease-out backwards;
-        }
-
-        /* Efeito de brilho ao passar o mouse */
-        .link-card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: 0.5s;
-        }
-
-        .link-card:hover::after { left: 100%; }
-        
-        .link-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            border-color: rgba(255,255,255,0.3);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .card-icon {
-            width: 60px; height: 60px; /* Ícone maior */
-            border-radius: 16px;
-            background: rgba(255,255,255,0.05);
-            display: flex; align-items: center; justify-content: center;
-            margin-right: 20px;
-            color: #fff;
-            transition: 0.3s;
-        }
-        
-        .card-icon svg {
-            width: 30px; height: 30px; /* Tamanho do SVG dentro do box */
-        }
-
-        .link-card:hover .card-icon {
-            background: var(--neon-primary);
-            color: #fff; /* Ícone branco no hover para contraste com rosa */
-            box-shadow: 0 0 20px var(--neon-primary);
-        }
-
-        .card-content { flex: 1; }
-        
-        .card-title {
-            color: #fff;
-            font-weight: 700;
-            font-size: 1.2rem; /* Título maior */
-            margin-bottom: 5px;
-        }
-        
-        .card-desc {
-            color: var(--text-muted);
-            font-size: 0.9rem; /* Descrição maior */
-        }
-
-        /* Variações de Cores para os Cards */
-        .theme-visu:hover { border-color: var(--neon-primary); }
-        .theme-visu:hover .card-icon { background: var(--neon-primary); box-shadow: 0 0 25px var(--neon-primary); }
-
-        .theme-c4:hover { border-color: #fff; }
-        .theme-c4:hover .card-icon { background: #fff; color: #000; box-shadow: 0 0 25px rgba(255,255,255,0.5); }
-
-        .theme-lucro:hover { border-color: var(--neon-accent); }
-        .theme-lucro:hover .card-icon { background: var(--neon-accent); color: #000; box-shadow: 0 0 25px var(--neon-accent); }
-
-        .theme-cjota:hover { border-color: var(--neon-secondary); }
-        .theme-cjota:hover .card-icon { background: var(--neon-secondary); color: #fff; box-shadow: 0 0 25px var(--neon-secondary); }
-
-
-        /* --- 6. FOOTER --- */
-        footer {
-            margin-top: 60px;
-            text-align: center;
-            border-top: 1px solid var(--glass-border);
-            padding-top: 30px;
-            color: #555;
-            font-size: 0.9rem;
-        }
-
-        .socials {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 20px;
-        }
-        
-        .socials a {
-            color: var(--text-muted);
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
             justify-content: center;
         }
-        .socials a:hover { color: var(--neon-primary); transform: scale(1.2); }
-        
-        .socials svg {
-            width: 28px;
-            height: 28px;
-            stroke-width: 2;
-        }
+        .social-btn:hover { color: var(--neon-primary); transform: scale(1.2); }
 
-        /* --- BOTÃO FLUTUANTE WHATSAPP (CORRIGIDO) --- */
         .float-wa {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 65px;
-            height: 65px;
-            background: rgba(0, 0, 0, 0.8); 
-            border: 2px solid #25D366; /* Borda Verde WhatsApp */
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #25D366; /* Ícone Verde */
-            box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); /* Glow Verde */
-            z-index: 100;
-            transition: all 0.3s ease;
-            animation: pulse-green 2s infinite;
+            position: fixed; bottom: 30px; right: 30px;
+            width: 62px; height: 62px; background: #25D366;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: #fff; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3); z-index: 100;
+            transition: 0.4s;
+            text-decoration: none;
         }
+        .float-wa:hover { transform: scale(1.1) rotate(5deg); }
 
-        .float-wa svg {
-            width: 32px; /* Tamanho ajustado do ícone */
-            height: 32px;
-            fill: #25D366;
-            filter: drop-shadow(0 0 5px rgba(37, 211, 102, 0.8));
-        }
-
-        .float-wa:hover {
-            transform: scale(1.1);
-            background: #25D366;
-            color: #000;
-            box-shadow: 0 0 35px rgba(37, 211, 102, 0.8);
-        }
-        
-        .float-wa:hover svg {
-            fill: #000; /* Ícone fica preto no hover */
-            filter: none;
-        }
-
-        @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-        }
-
-        /* --- ANIMAÇÕES --- */
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes fadeUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
+        footer p { color: #444; font-size: 0.75rem; letter-spacing: 1px; font-weight: 600; }
     </style>
 </head>
 <body>
 
-    <!-- Fundo Animado -->
-    <div class="background-fx">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
+    <div class="grid-overlay"></div>
+    <div class="spotlight" id="spotlight"></div>
 
-    <div class="container">
-        
-        <!-- Perfil -->
+    <!-- PÁGINA INICIAL -->
+    <main id="home-page" class="page active">
         <header class="profile-header">
             <div class="profile-img-wrap">
-                <!-- Foto Atualizada -->
-                <img src="https://i.ibb.co/mr64HKjB/upscalemedia-transformed-4.png" alt="Foto Caroline Azevedo" class="profile-img">
+                <img src="https://i.ibb.co/mr64HKjB/upscalemedia-transformed-4.png" alt="Caroline Azevedo" class="profile-img">
             </div>
+            <span class="profile-role">Founder & Tech Developer</span>
             <h1 class="profile-name">Caroline Azevedo</h1>
-            <div class="profile-role">Founder & Tech Developer</div>
-            <p class="profile-bio">Especialista em customização visual e criadora de ecossistemas digitais. Transformo o comum em experiências premium.</p>
+            <p style="color: var(--text-muted); font-size: 1rem; margin-top: 5px;">Codificando o futuro de marcas que buscam exclusividade digital.</p>
         </header>
 
-        <!-- Links (Grid) -->
         <div class="links-grid">
-
-            <!-- Link 1: Vizzu Digital -->
-            <a href="https://vizzudigital.netlify.app/" target="_blank" class="link-card theme-visu" style="animation-delay: 0.1s;" onclick="trackClick('clique_link', {'destino': 'Vizzu Digital'})">
-                <div class="card-icon">
-                    <i data-lucide="code-2"></i>
-                </div>
+            <!-- VIZZU SPA -->
+            <div class="link-card" onclick="openSales()">
+                <div class="card-icon"><i data-lucide="terminal"></i></div>
                 <div class="card-content">
                     <div class="card-title">Vizzu Digital</div>
-                    <div class="card-desc">Especialista na plataforma FácilZap</div>
+                    <div class="card-desc">Engenharia Visual para FácilZap</div>
                 </div>
-                <i data-lucide="chevron-right" style="color: #555;"></i>
-            </a>
+                <i data-lucide="arrow-up-right" style="opacity: 0.3; width: 18px;"></i>
+            </div>
 
-            <!-- Link 2: C4 Franquias -->
-            <a href="https://c4franquias.com/" target="_blank" class="link-card theme-c4" style="animation-delay: 0.2s;" onclick="trackClick('clique_link', {'destino': 'C4 Franquias'})">
-                <div class="card-icon">
-                    <i data-lucide="rocket"></i>
-                </div>
+            <a href="https://c4franquias.com/" target="_blank" class="link-card">
+                <div class="card-icon"><i data-lucide="rocket"></i></div>
                 <div class="card-content">
                     <div class="card-title">C4 Franquias</div>
-                    <div class="card-desc">Nosso modelo de expansão</div>
+                    <div class="card-desc">Ecossistema de expansão de negócios</div>
                 </div>
-                <i data-lucide="chevron-right" style="color: #555;"></i>
             </a>
 
-            <!-- Link 3: Lucro Certo -->
-            <a href="https://sistemalucrocerto.com/" target="_blank" class="link-card theme-lucro" style="animation-delay: 0.3s;" onclick="trackClick('clique_link', {'destino': 'Lucro Certo'})">
-                <div class="card-icon">
-                    <i data-lucide="trending-up"></i>
-                </div>
+            <a href="https://sistemalucrocerto.com/" target="_blank" class="link-card">
+                <div class="card-icon"><i data-lucide="layout-dashboard"></i></div>
                 <div class="card-content">
-                    <div class="card-title">Sistema Lucro Certo</div>
-                    <div class="card-desc">Gestão inteligente para negócios</div>
+                    <div class="card-title">Lucro Certo</div>
+                    <div class="card-desc">Inteligência aplicada à lucratividade</div>
                 </div>
-                <i data-lucide="chevron-right" style="color: #555;"></i>
             </a>
 
-            <!-- Link 4: Cjota -->
-            <a href="https://cjotarasteirinhas.com.br" target="_blank" class="link-card theme-cjota" style="animation-delay: 0.4s;" onclick="trackClick('clique_link', {'destino': 'Cjota Rasteirinhas'})">
-                <div class="card-icon">
-                    <i data-lucide="shopping-bag"></i>
-                </div>
+            <a href="https://cjotarasteirinhas.com.br" target="_blank" class="link-card">
+                <div class="card-icon"><i data-lucide="shopping-bag"></i></div>
                 <div class="card-content">
                     <div class="card-title">Cjota Rasteirinhas</div>
-                    <div class="card-desc">Fundadora da marca</div>
+                    <div class="card-desc">Moda, design e posicionamento</div>
                 </div>
-                <i data-lucide="chevron-right" style="color: #555;"></i>
             </a>
-
         </div>
 
-        <!-- Footer -->
-        <footer>
-            <div class="socials">
-                <a href="#" aria-label="Instagram" onclick="trackClick('clique_social', {'rede': 'Instagram'})">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                </a>
-                
-                <a href="https://wa.me/5562982237075" target="_blank" aria-label="WhatsApp" onclick="trackClick('clique_social', {'rede': 'WhatsApp Footer'})">
-                    <!-- Ícone WhatsApp no Footer -->
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                </a>
-
-                <!-- Link de E-mail Atualizado -->
-                <a href="mailto:carolineazevedo075@gmail.com" aria-label="Email" onclick="trackClick('clique_social', {'rede': 'Email'})">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                </a>
+        <div class="footer-nav">
+            <div class="social-row">
+                <!-- Links corrigidos com target="_blank" -->
+                <a href="https://instagram.com/carolineazevedo" target="_blank" class="social-btn"><i data-lucide="instagram"></i></a>
+                <a href="https://wa.me/5562982237075" target="_blank" class="social-btn"><i data-lucide="message-circle"></i></a>
+                <a href="mailto:carolineazevedo075@gmail.com" class="social-btn"><i data-lucide="mail"></i></a>
             </div>
-            <p>© 2026 Caroline Azevedo</p>
-        </footer>
+            <footer><p>© 2026 CAROLINE AZEVEDO</p></footer>
+        </div>
+    </main>
 
-    </div>
+    <!-- PÁGINA VIZZU SALES -->
+    <main id="sales-page" class="page">
+        <div class="back-btn" onclick="goBack()">
+            <i data-lucide="arrow-left"></i> Voltar ao menu
+        </div>
 
-    <!-- Botão Flutuante WhatsApp (Ícone Corrigido) -->
-    <a href="https://wa.me/5562982237075?text=Ol%C3%A1%2C%20vim%20pelo%20seu%20site%20pessoal!" target="_blank" class="float-wa" aria-label="Fale comigo no WhatsApp" onclick="trackClick('clique_flutuante', {'destino': 'WhatsApp'})">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        <div class="sales-header">
+            <span class="badge">Autoridade em FácilZap</span>
+            <h1 class="sales-title">Onde o padrão termina, <span>nosso código começa.</span></h1>
+            <p style="color: var(--text-muted); line-height: 1.6; font-size: 1.05rem;">
+                Não aplicamos temas. Desenvolvemos camadas de <strong>inteligência visual e lógica</strong> via HTML, JS e CSS para criar uma vantagem competitiva real para sua marca.
+            </p>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-item">
+                <h4>Engenharia Visual Proprietária</h4>
+                <p>Injetamos lógica personalizada para criar comportamentos e estéticas que o padrão da plataforma simplesmente não alcança. É o seu catálogo com "alma" de software de luxo.</p>
+            </div>
+            <div class="feature-item">
+                <h4>Arquitetura de Conversão</h4>
+                <p>Cada pixel é planejado para eliminar fricções. Menos ruído visual, mais facilidade de checkout e uma jornada de compra que reflete o valor do seu ticket.</p>
+            </div>
+        </div>
+
+        <div class="price-card">
+            <p style="text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; color: var(--text-muted);">Investimento em Exclusividade</p>
+            <div class="price-tag">R$ 2.499<small>,00</small></div>
+            <span class="payment-info">6x SEM JUROS NO CARTÃO</span>
+            <p style="font-size: 0.95rem; color: #fff; margin-bottom: 25px;">
+                <i data-lucide="shield-check" style="width: 14px; color: var(--neon-accent); vertical-align: middle;"></i> 10% DE DESCONTO VIA PIX
+            </p>
+            
+            <a href="https://wa.me/5562982237075?text=Olá Caroline! Quero elevar meu FácilZap com engenharia visual e código exclusivo." 
+               target="_blank" 
+               class="btn-cta" 
+               onclick="trackClick('venda_vizzu', {model: 'high_end'})">
+                INICIAR MEU PROJETO
+            </a>
+        </div>
+
+        <p style="text-align: center; color: #555; font-size: 0.8rem; margin-top: 40px; font-weight: 600;">
+            ESTIMATIVA DE ENTREGA: 20 DIAS ÚTEIS (BRIEFING INCLUSO)
+        </p>
+
+        <div class="footer-nav">
+            <!-- Adicionei as redes sociais no rodapé da página de vendas também -->
+            <div class="social-row">
+                <a href="https://instagram.com/carolineazevedo" target="_blank" class="social-btn"><i data-lucide="instagram"></i></a>
+                <a href="https://wa.me/5562982237075" target="_blank" class="social-btn"><i data-lucide="message-circle"></i></a>
+                <a href="mailto:carolineazevedo075@gmail.com" class="social-btn"><i data-lucide="mail"></i></a>
+            </div>
+            <footer><p>© 2026 CAROLINE AZEVEDO</p></footer>
+        </div>
+    </main>
+
+    <!-- WHATSAPP FLUTUANTE GLOBAL -->
+    <a href="https://wa.me/5562982237075?text=Olá Caroline!" target="_blank" class="float-wa">
+        <i data-lucide="message-circle" size="28"></i>
     </a>
 
-    <!-- Script para carregar os ícones -->
     <script>
         lucide.createIcons();
+
+        // EFEITO DE HOLOFOTE (SPOTLIGHT)
+        const spotlight = document.getElementById('spotlight');
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            spotlight.style.setProperty('--x', `${x}%`);
+            spotlight.style.setProperty('--y', `${y}%`);
+        });
+
+        // NAVEGAÇÃO SPA - CORREÇÃO DO BUG DE TELA PRETA
+        function openSales() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const home = document.getElementById('home-page');
+            const sales = document.getElementById('sales-page');
+            
+            home.style.opacity = '0';
+            home.style.transform = 'translateY(-10px)';
+            
+            setTimeout(() => {
+                home.classList.remove('active');
+                home.style.display = 'none';
+                
+                sales.style.display = 'block';
+                sales.style.opacity = '0'; 
+                sales.style.transform = 'translateY(15px)';
+                
+                setTimeout(() => {
+                    sales.style.opacity = '';
+                    sales.style.transform = '';
+                    sales.classList.add('active');
+                }, 50);
+            }, 400);
+        }
+
+        function goBack() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const home = document.getElementById('home-page');
+            const sales = document.getElementById('sales-page');
+            
+            sales.style.opacity = '0';
+            sales.style.transform = 'translateY(10px)';
+            
+            setTimeout(() => {
+                sales.classList.remove('active');
+                sales.style.display = 'none';
+                
+                home.style.display = 'block';
+                home.style.opacity = '0';
+                home.style.transform = 'translateY(-15px)';
+                
+                setTimeout(() => {
+                    home.style.opacity = '';
+                    home.style.transform = '';
+                    home.classList.add('active');
+                }, 50);
+            }, 400);
+        }
     </script>
 </body>
 </html>

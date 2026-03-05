@@ -49,7 +49,7 @@
             position: relative;
         }
 
-        /* --- BACKGROUND INTERATIVO --- */
+        /* --- BACKGROUND INTERATIVO (MELHORADO) --- */
         .spotlight {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -57,10 +57,11 @@
             z-index: -1;
             background: radial-gradient(
                 circle at var(--x, 50%) var(--y, 50%), 
-                rgba(220, 46, 218, 0.12) 0%, 
-                rgba(112, 0, 255, 0.05) 25%, 
+                rgba(220, 46, 218, 0.15) 0%, 
+                rgba(112, 0, 255, 0.08) 25%, 
                 transparent 50%
             );
+            transition: opacity 0.5s ease;
         }
 
         .grid-overlay {
@@ -92,13 +93,24 @@
         }
 
         /* --- PERFIL --- */
-        .profile-header { text-align: center; margin-bottom: 45px; }
+        .profile-header { 
+            text-align: center; 
+            margin-bottom: 45px;
+            animation: fadeIn 1s ease-out;
+        }
         
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .profile-img-wrap {
             position: relative;
             width: 130px; height: 130px;
             margin: 0 auto 28px;
         }
+        
+        /* Efeito de brilho pulsante na foto no Mobile */
         .profile-img-wrap::after {
             content: ''; position: absolute; inset: -4px;
             border-radius: 50%;
@@ -106,6 +118,12 @@
             z-index: -1;
             opacity: 0.6;
             filter: blur(8px);
+            animation: pulse-glow 3s infinite alternate;
+        }
+        
+        @keyframes pulse-glow {
+            from { opacity: 0.4; filter: blur(8px); }
+            to { opacity: 0.8; filter: blur(12px); transform: scale(1.05); }
         }
         
         .profile-img {
@@ -126,7 +144,11 @@
         }
 
         /* --- CARDS PREMIUM --- */
-        .links-grid { display: flex; flex-direction: column; gap: 14px; }
+        .links-grid { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 14px; 
+        }
         
         .link-card {
             background: var(--glass-bg);
@@ -137,6 +159,26 @@
             transition: var(--transition);
             cursor: pointer; color: white;
             position: relative;
+            /* Animação de entrada escalonada */
+            animation: cardEntrance 0.6s cubic-bezier(0.2, 1, 0.3, 1) backwards;
+        }
+
+        @keyframes cardEntrance {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Mobile: Leve pulso na borda para não ficar "morto" */
+        @media (max-width: 768px) {
+            .link-card {
+                animation: cardEntrance 0.6s cubic-bezier(0.2, 1, 0.3, 1) backwards,
+                           borderPulse 4s infinite alternate;
+            }
+        }
+
+        @keyframes borderPulse {
+            from { border-color: var(--glass-border); }
+            to { border-color: rgba(220, 46, 218, 0.2); }
         }
 
         .link-card:hover { 
@@ -153,6 +195,7 @@
             transition: var(--transition);
             border: 1px solid var(--glass-border);
         }
+        
         .link-card:hover .card-icon { 
             color: var(--neon-primary);
             border-color: var(--neon-primary);
@@ -266,7 +309,7 @@
 
         <div class="links-grid">
             <!-- VIZZU SPA -->
-            <div class="link-card" onclick="openSales()">
+            <div class="link-card" onclick="openSales()" style="animation-delay: 0.1s;">
                 <div class="card-icon"><i data-lucide="terminal"></i></div>
                 <div class="card-content">
                     <div class="card-title">Vizzu Digital</div>
@@ -275,7 +318,7 @@
                 <i data-lucide="arrow-up-right" style="opacity: 0.3; width: 18px;"></i>
             </div>
 
-            <a href="https://c4franquias.com/" target="_blank" class="link-card">
+            <a href="https://c4franquias.com/" target="_blank" class="link-card" style="animation-delay: 0.2s;">
                 <div class="card-icon"><i data-lucide="rocket"></i></div>
                 <div class="card-content">
                     <div class="card-title">C4 Franquias</div>
@@ -283,7 +326,7 @@
                 </div>
             </a>
 
-            <a href="https://sistemalucrocerto.com/" target="_blank" class="link-card">
+            <a href="https://sistemalucrocerto.com/" target="_blank" class="link-card" style="animation-delay: 0.3s;">
                 <div class="card-icon"><i data-lucide="layout-dashboard"></i></div>
                 <div class="card-content">
                     <div class="card-title">Lucro Certo</div>
@@ -291,7 +334,7 @@
                 </div>
             </a>
 
-            <a href="https://cjotarasteirinhas.com.br" target="_blank" class="link-card">
+            <a href="https://cjotarasteirinhas.com.br" target="_blank" class="link-card" style="animation-delay: 0.4s;">
                 <div class="card-icon"><i data-lucide="shopping-bag"></i></div>
                 <div class="card-content">
                     <div class="card-title">Cjota Rasteirinhas</div>
@@ -302,7 +345,6 @@
 
         <div class="footer-nav">
             <div class="social-row">
-                <!-- Links corrigidos com target="_blank" -->
                 <a href="https://instagram.com/carolineazevedo" target="_blank" class="social-btn"><i data-lucide="instagram"></i></a>
                 <a href="https://wa.me/5562982237075" target="_blank" class="social-btn"><i data-lucide="message-circle"></i></a>
                 <a href="mailto:carolineazevedo075@gmail.com" class="social-btn"><i data-lucide="mail"></i></a>
@@ -357,7 +399,6 @@
         </p>
 
         <div class="footer-nav">
-            <!-- Adicionei as redes sociais no rodapé da página de vendas também -->
             <div class="social-row">
                 <a href="https://instagram.com/carolineazevedo" target="_blank" class="social-btn"><i data-lucide="instagram"></i></a>
                 <a href="https://wa.me/5562982237075" target="_blank" class="social-btn"><i data-lucide="message-circle"></i></a>
@@ -375,16 +416,57 @@
     <script>
         lucide.createIcons();
 
-        // EFEITO DE HOLOFOTE (SPOTLIGHT)
+        // EFEITO DE HOLOFOTE INTERATIVO E AUTÔNOMO
         const spotlight = document.getElementById('spotlight');
-        document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth) * 100;
-            const y = (e.clientY / window.innerHeight) * 100;
+        let lastX = 50;
+        let lastY = 50;
+        let targetX = 50;
+        let targetY = 50;
+        let isTouching = false;
+
+        const updateSpotlight = (clientX, clientY) => {
+            const x = (clientX / window.innerWidth) * 100;
+            const y = (clientY / window.innerHeight) * 100;
             spotlight.style.setProperty('--x', `${x}%`);
             spotlight.style.setProperty('--y', `${y}%`);
+            lastX = x;
+            lastY = y;
+        };
+
+        // Mouse no Desktop
+        document.addEventListener('mousemove', (e) => {
+            isTouching = false;
+            updateSpotlight(e.clientX, e.clientY);
         });
 
-        // NAVEGAÇÃO SPA - CORREÇÃO DO BUG DE TELA PRETA
+        // Toque no Mobile
+        document.addEventListener('touchmove', (e) => {
+            isTouching = true;
+            if (e.touches.length > 0) {
+                updateSpotlight(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: true });
+
+        // Movimento Autônomo (quando ninguém toca na tela)
+        function animateSpotlight() {
+            if (!isTouching) {
+                // Cria um movimento circular suave
+                const time = Date.now() * 0.001;
+                const idleX = 50 + Math.cos(time * 0.5) * 20;
+                const idleY = 50 + Math.sin(time * 0.7) * 20;
+                
+                // Suaviza a transição para a posição idle
+                lastX += (idleX - lastX) * 0.05;
+                lastY += (idleY - lastY) * 0.05;
+                
+                spotlight.style.setProperty('--x', `${lastX}%`);
+                spotlight.style.setProperty('--y', `${lastY}%`);
+            }
+            requestAnimationFrame(animateSpotlight);
+        }
+        animateSpotlight();
+
+        // NAVEGAÇÃO SPA
         function openSales() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             const home = document.getElementById('home-page');

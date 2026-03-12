@@ -49,7 +49,7 @@
             position: relative;
         }
 
-        /* --- BACKGROUND INTERATIVO (MELHORADO) --- */
+        /* --- BACKGROUND INTERATIVO (SPOTLIGHT) --- */
         .spotlight {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -110,7 +110,6 @@
             margin: 0 auto 28px;
         }
         
-        /* Efeito de brilho pulsante na foto no Mobile */
         .profile-img-wrap::after {
             content: ''; position: absolute; inset: -4px;
             border-radius: 50%;
@@ -143,7 +142,7 @@
             text-transform: uppercase; margin-bottom: 12px; display: block;
         }
 
-        /* --- CARDS PREMIUM --- */
+        /* --- LINKS GRID --- */
         .links-grid { 
             display: flex; 
             flex-direction: column; 
@@ -159,8 +158,23 @@
             transition: var(--transition);
             cursor: pointer; color: white;
             position: relative;
-            /* Animação de entrada escalonada */
             animation: cardEntrance 0.6s cubic-bezier(0.2, 1, 0.3, 1) backwards;
+        }
+
+        /* DESTAQUE VIZZU DIGITAL */
+        .link-card.highlight {
+            background: linear-gradient(145deg, rgba(220, 46, 218, 0.1), rgba(112, 0, 255, 0.05));
+            border: 1px solid var(--neon-primary);
+            padding: 28px 22px;
+            box-shadow: 0 0 20px rgba(220, 46, 218, 0.15);
+        }
+        .link-card.highlight .card-icon {
+            background: var(--neon-primary);
+            box-shadow: 0 0 15px var(--neon-primary);
+        }
+        .link-card.highlight .card-title {
+            font-size: 1.3rem;
+            color: var(--neon-primary);
         }
 
         @keyframes cardEntrance {
@@ -168,7 +182,6 @@
             to { opacity: 1; transform: translateX(0); }
         }
 
-        /* Mobile: Leve pulso na borda para não ficar "morto" */
         @media (max-width: 768px) {
             .link-card {
                 animation: cardEntrance 0.6s cubic-bezier(0.2, 1, 0.3, 1) backwards,
@@ -197,15 +210,15 @@
         }
         
         .link-card:hover .card-icon { 
-            color: var(--neon-primary);
+            color: #fff;
             border-color: var(--neon-primary);
-            box-shadow: 0 0 20px rgba(220, 46, 218, 0.2);
+            box-shadow: 0 0 20px rgba(220, 46, 218, 0.5);
         }
 
         .card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 2px; }
         .card-desc { color: var(--text-muted); font-size: 0.85rem; font-weight: 400; }
 
-        /* --- PÁGINA DE VENDAS (VIZZU) --- */
+        /* --- PÁGINA DE VENDAS --- */
         .back-btn {
             display: inline-flex; align-items: center; gap: 8px;
             color: var(--text-muted); text-decoration: none;
@@ -304,25 +317,26 @@
             </div>
             <span class="profile-role">Founder & Tech Developer</span>
             <h1 class="profile-name">Caroline Azevedo</h1>
-            <p style="color: var(--text-muted); font-size: 1rem; margin-top: 5px;">Codificando o futuro de marcas que buscam exclusividade digital.</p>
+            <p style="color: var(--text-muted); font-size: 1rem; margin-top: 5px;">Transformando marcas comuns em ecossistemas de alta conversão.</p>
         </header>
 
         <div class="links-grid">
-            <!-- VIZZU SPA -->
-            <div class="link-card" onclick="openSales()" style="animation-delay: 0.1s;">
-                <div class="card-icon"><i data-lucide="terminal"></i></div>
+            <!-- VIZZU SPA EM DESTAQUE -->
+            <div class="link-card highlight" onclick="openSales()" style="animation-delay: 0.1s;">
+                <div class="card-icon"><i data-lucide="sparkles"></i></div>
                 <div class="card-content">
                     <div class="card-title">Vizzu Digital</div>
-                    <div class="card-desc">Engenharia Visual para FácilZap</div>
+                    <div class="card-desc">Personalizamos o seu site no FácilZap</div>
                 </div>
-                <i data-lucide="arrow-up-right" style="opacity: 0.3; width: 18px;"></i>
+                <i data-lucide="arrow-up-right" style="color: var(--neon-primary); width: 22px;"></i>
             </div>
 
+            <!-- OUTROS LINKS -->
             <a href="https://c4franquias.com/" target="_blank" class="link-card" style="animation-delay: 0.2s;">
                 <div class="card-icon"><i data-lucide="rocket"></i></div>
                 <div class="card-content">
                     <div class="card-title">C4 Franquias</div>
-                    <div class="card-desc">Ecossistema de expansão de negócios</div>
+                    <div class="card-desc">Expansão e Inteligência de Negócios</div>
                 </div>
             </a>
 
@@ -330,7 +344,7 @@
                 <div class="card-icon"><i data-lucide="layout-dashboard"></i></div>
                 <div class="card-content">
                     <div class="card-title">Lucro Certo</div>
-                    <div class="card-desc">Inteligência aplicada à lucratividade</div>
+                    <div class="card-desc">Gestão focada em lucratividade</div>
                 </div>
             </a>
 
@@ -338,7 +352,7 @@
                 <div class="card-icon"><i data-lucide="shopping-bag"></i></div>
                 <div class="card-content">
                     <div class="card-title">Cjota Rasteirinhas</div>
-                    <div class="card-desc">Moda, design e posicionamento</div>
+                    <div class="card-desc">Minha marca de calçados premium</div>
                 </div>
             </a>
         </div>
@@ -360,42 +374,42 @@
         </div>
 
         <div class="sales-header">
-            <span class="badge">Autoridade em FácilZap</span>
-            <h1 class="sales-title">Onde o padrão termina, <span>nosso código começa.</span></h1>
+            <span class="badge">Especialista FácilZap</span>
+            <h1 class="sales-title">Personalizamos o seu site <span>sob medida.</span></h1>
             <p style="color: var(--text-muted); line-height: 1.6; font-size: 1.05rem;">
-                Não aplicamos temas. Desenvolvemos camadas de <strong>inteligência visual e lógica</strong> via HTML, JS e CSS para criar uma vantagem competitiva real para sua marca.
+                Não usamos temas prontos. Aplicamos <strong>Engenharia Visual</strong> via HTML, JS e CSS para criar um layout exclusivo que reflete o valor real da sua marca no FácilZap.
             </p>
         </div>
 
         <div class="feature-box">
             <div class="feature-item">
-                <h4>Engenharia Visual Proprietária</h4>
-                <p>Injetamos lógica personalizada para criar comportamentos e estéticas que o padrão da plataforma simplesmente não alcança. É o seu catálogo com "alma" de software de luxo.</p>
+                <h4>Customização via Código</h4>
+                <p>Injetamos código personalizado para criar funcionalidades e visuais que a plataforma padrão não permite. É o seu site com identidade proprietária.</p>
             </div>
             <div class="feature-item">
-                <h4>Arquitetura de Conversão</h4>
-                <p>Cada pixel é planejado para eliminar fricções. Menos ruído visual, mais facilidade de checkout e uma jornada de compra que reflete o valor do seu ticket.</p>
+                <h4>Design de Alta Performance</h4>
+                <p>Layout focado em conversão e experiência do usuário (UX). Criamos um ambiente premium que facilita o checkout e aumenta suas vendas.</p>
             </div>
         </div>
 
         <div class="price-card">
-            <p style="text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; color: var(--text-muted);">Investimento em Exclusividade</p>
+            <p style="text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; color: var(--text-muted);">Investimento Premium</p>
             <div class="price-tag">R$ 2.499<small>,00</small></div>
             <span class="payment-info">6x SEM JUROS NO CARTÃO</span>
             <p style="font-size: 0.95rem; color: #fff; margin-bottom: 25px;">
                 <i data-lucide="shield-check" style="width: 14px; color: var(--neon-accent); vertical-align: middle;"></i> 10% DE DESCONTO VIA PIX
             </p>
             
-            <a href="https://wa.me/5562982237075?text=Olá Caroline! Quero elevar meu FácilZap com engenharia visual e código exclusivo." 
+            <a href="https://wa.me/5562982237075?text=Olá Caroline! Quero a personalização premium do Vizzu Digital no meu FácilZap." 
                target="_blank" 
                class="btn-cta" 
                onclick="trackClick('venda_vizzu', {model: 'high_end'})">
-                INICIAR MEU PROJETO
+                CONTRATAR AGORA
             </a>
         </div>
 
         <p style="text-align: center; color: #555; font-size: 0.8rem; margin-top: 40px; font-weight: 600;">
-            ESTIMATIVA DE ENTREGA: 20 DIAS ÚTEIS (BRIEFING INCLUSO)
+            ESTIMATIVA DE ENTREGA: 20 DIAS ÚTEIS
         </p>
 
         <div class="footer-nav">
@@ -416,12 +430,10 @@
     <script>
         lucide.createIcons();
 
-        // EFEITO DE HOLOFOTE INTERATIVO E AUTÔNOMO
+        // EFEITO DE HOLOFOTE (SPOTLIGHT)
         const spotlight = document.getElementById('spotlight');
         let lastX = 50;
         let lastY = 50;
-        let targetX = 50;
-        let targetY = 50;
         let isTouching = false;
 
         const updateSpotlight = (clientX, clientY) => {
@@ -433,13 +445,11 @@
             lastY = y;
         };
 
-        // Mouse no Desktop
         document.addEventListener('mousemove', (e) => {
             isTouching = false;
             updateSpotlight(e.clientX, e.clientY);
         });
 
-        // Toque no Mobile
         document.addEventListener('touchmove', (e) => {
             isTouching = true;
             if (e.touches.length > 0) {
@@ -447,18 +457,13 @@
             }
         }, { passive: true });
 
-        // Movimento Autônomo (quando ninguém toca na tela)
         function animateSpotlight() {
             if (!isTouching) {
-                // Cria um movimento circular suave
                 const time = Date.now() * 0.001;
                 const idleX = 50 + Math.cos(time * 0.5) * 20;
                 const idleY = 50 + Math.sin(time * 0.7) * 20;
-                
-                // Suaviza a transição para a posição idle
                 lastX += (idleX - lastX) * 0.05;
                 lastY += (idleY - lastY) * 0.05;
-                
                 spotlight.style.setProperty('--x', `${lastX}%`);
                 spotlight.style.setProperty('--y', `${lastY}%`);
             }
@@ -471,18 +476,14 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
             const home = document.getElementById('home-page');
             const sales = document.getElementById('sales-page');
-            
             home.style.opacity = '0';
             home.style.transform = 'translateY(-10px)';
-            
             setTimeout(() => {
                 home.classList.remove('active');
                 home.style.display = 'none';
-                
                 sales.style.display = 'block';
                 sales.style.opacity = '0'; 
                 sales.style.transform = 'translateY(15px)';
-                
                 setTimeout(() => {
                     sales.style.opacity = '';
                     sales.style.transform = '';
@@ -495,18 +496,14 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
             const home = document.getElementById('home-page');
             const sales = document.getElementById('sales-page');
-            
             sales.style.opacity = '0';
             sales.style.transform = 'translateY(10px)';
-            
             setTimeout(() => {
                 sales.classList.remove('active');
                 sales.style.display = 'none';
-                
                 home.style.display = 'block';
                 home.style.opacity = '0';
                 home.style.transform = 'translateY(-15px)';
-                
                 setTimeout(() => {
                     home.style.opacity = '';
                     home.style.transform = '';
